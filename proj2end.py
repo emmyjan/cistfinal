@@ -10,7 +10,6 @@ def main():
     window = uic.loadUi("proj2end.ui")
     window.show()
     app.exec()
-# TODO make an end screen for when both players pass back to back
-#  add in a way to make it back to the start screen.
+
 if __name__ == '__main__':
     main()
