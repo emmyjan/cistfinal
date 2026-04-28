@@ -57,7 +57,6 @@ class Board:
             self.__slist = []
 
         self.__slist.append(stone)
-        print(self.__slist)
         # adds the stones location to a list
         for link in stone.getLinks():
            
