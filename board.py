@@ -5,6 +5,7 @@ class Board:
     def __init__(self, size):
         self.size = size
         self.__world = [[]]
+        self.__slist = [] #Positions already visited by get_group_liberties
 
         for y in range(size):
             for x in range(size): 
@@ -43,23 +44,33 @@ class Board:
             retval += '\n'
         return retval
 
-    def get_group_liberties(self, posx, posy):
-        """Returns total number of liberties for a group at a specified coordinate"""
+    def get_group_liberties_pos(self, posx, posy):
         stone = self.__world[posy][posx]
-        slist.append(posx, posy)
-        # adds the stones location to a list
+        return self.get_group_liberties(stone)
+
+
+    def get_group_liberties(self, stone: Stone, origin=True):
+        """Returns total number of liberties for a group at a specified coordinate"""
         liberties = 0
+        
+        if origin:
+            self.__slist = []
+
+        self.__slist.append(stone)
+        print(self.__slist)
+        # adds the stones location to a list
         for link in stone.getLinks():
+           
             if link == None:
                 continue
                 # error case
-            if link.getColor() == Stone.COLOR_EMPTY:
-                if (check spot) !in llist:
-                    # checks the spot being looked at to see if it is not in the list
-                    llist.append()
-                    #adds the empty spot to the list
-                    liberties += 1
-            elif link.getColor() == stone.getcolor() and (position of stone) !in wlist:
-                # checks for friendly stones and calls the function with them
-                get_group_liberties(self, location of said stone)
+
+            if link.getColor() == Stone.COLOR_EMPTY and link not in self.__slist:
+                # checks the spot being looked at to see if it is not in the list
+                self.__slist.append(link)
+                #adds the empty spot to the list
+                liberties += 1
+            elif link.getColor() == stone.getColor() and link not in self.__slist:
+                    liberties += self.get_group_liberties(link, origin=False)
+                
         return liberties

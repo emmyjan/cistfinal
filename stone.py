@@ -45,5 +45,13 @@ class Stone:
         elif self.color == self.COLOR_EMPTY:
             return '+'
     
+    def getX(self):
+        return self.__x
+    
+    def getY(self):
+        return self.__y
+
+
     def __str__(self):
         return (f"{self.__name}, color is {self.getChar()}!")
+    
