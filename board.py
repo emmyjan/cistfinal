@@ -47,14 +47,19 @@ class Board:
         """Returns total number of liberties for a group at a specified coordinate"""
         stone = self.__world[posy][posx]
         slist.append(posx, posy)
+        # adds the stones location to a list
         liberties = 0
         for link in stone.getLinks():
             if link == None:
                 continue
+                # error case
             if link.getColor() == Stone.COLOR_EMPTY:
                 if (check spot) !in llist:
+                    # checks the spot being looked at to see if it is not in the list
                     llist.append()
+                    #adds the empty spot to the list
                     liberties += 1
             elif link.getColor() == stone.getcolor() and (position of stone) !in wlist:
+                # checks for friendly stones and calls the function with them
                 get_group_liberties(self, location of said stone)
         return liberties
