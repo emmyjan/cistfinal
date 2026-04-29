@@ -35,6 +35,12 @@ class Board:
         except IndexError:
             print("Error! Coordinate out of range.")
 
+    def get_board(self):
+        return self.__world
+    
+    def get_size(self):
+        return self.size
+    
     def __str__(self):
         retval = ""
         for y in range(self.size):
