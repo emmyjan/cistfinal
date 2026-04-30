@@ -1,3 +1,6 @@
+"""
+DEPRECATED: Do not use, code remains to use samples in other files.
+"""
 import random
 
 

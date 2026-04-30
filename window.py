@@ -1,3 +1,7 @@
+"""
+DEPRECATED: Do not use, code remains to use samples in other files.
+"""
+
 import pygame
 import background
 import board
@@ -6,22 +10,31 @@ import stone
 WIDTH = 800
 HEIGHT = 600
 GRID_LENGTH = (223, 760)
+screen = None, clock = None
 
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-clock = pygame.time.Clock()
-running = True
-dt = 0
-player_pos = pygame.Vector2(300, 400)
-bg = pygame.image.load("board.png")
-circles = []
-working_board = None
+
+def init_game():
+    global screen, clock
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    clock = pygame.time.Clock()
+    running = True
+    dt = 0
+    player_pos = pygame.Vector2(300, 400)
+    bg = pygame.image.load("board.png")
+    circles = []
+    working_board = None
 
 def conform_to_grid(grid_start_to_end: tuple, x, y, size) -> pygame.Vector2:
     """Snaps a coordinate to nearest point on a grid"""
     size_square = (grid_start_to_end[0] - grid_start_to_end[1]) // size
     stone_x = (x // size_square) * size_square
     stone_y = (y // size_square) * size_square
+
+    if stone_x < grid_start_to_end[0]:
+        stone_x = grid_start_to_end[0]
+        # or stone_x > size_square[1]:
+        stone_x
     return pygame.Vector2(stone_x, stone_y)
 
 
@@ -30,7 +43,6 @@ def draw_stone(stone: stone.Stone, x, y):
         pygame.draw.circle(screen, "black", (x, y), 25)
     elif stone.getColor() == stone.COLOR_WHITE:
         pygame.draw.circle(screen, "white", (x, y), 25)
-    print("Drawing stone at", x, y)
 
 def draw_board(board: board.Board, start_x, start_y):
     world = board.get_board()
@@ -45,7 +57,7 @@ def draw_board(board: board.Board, start_x, start_y):
             start_x += size_square
         start_y += size_square
 
-def mainloop():
+def draw_loop():
     global running
     while running:
         for event in pygame.event.get():
