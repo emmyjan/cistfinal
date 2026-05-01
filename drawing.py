@@ -50,5 +50,18 @@ class Drawer:
                 pygame.draw.circle(self.screen, color, current_coord, 25)
 
     def draw_highlight(self) -> None:
-        mouse_pos = pygame.mouse.get_pos()
-        print(f"{mouse_pos}")
+
+
+
+        size_square = (self.end_coord[0] - self.start_coord[0]) // self.board.get_size()
+        boxx = (pygame.mouse.get_pos()[0] // size_square) * size_square
+        boxy = (pygame.mouse.get_pos()[1] // size_square) * size_square
+        box = pygame.Rect(boxx,boxy,30,30)
+        if pygame.mouse.get_pos()[0] < self.start_coord[0] or pygame.mouse.get_pos()[1] > self.end_coord[1]:
+            return
+        else:
+            pygame.draw.rect(self.screen, "blue", box, 1)
+
+
+
+

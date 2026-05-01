@@ -2,9 +2,9 @@ from board import *
 from game import *
 
 def main():
-    wb = Board(5)
+    wb = Board(9)
     print(wb)
-    testing = True
+    testing = False
     t = True
     if testing:
         while True:
@@ -26,7 +26,7 @@ def main():
     # test that maddy can exist
     print(wb)
 
-    game = Game()
+    game = Game(wb)
     game.main_loop()
     
 
