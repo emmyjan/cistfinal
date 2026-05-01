@@ -1,3 +1,4 @@
+import pygame.constants
 from drawing import *
 
 
@@ -15,8 +16,16 @@ class Game():
             self.drawer.draw_update()
 
         pygame.quit()
+
+    def click(self, event):
+        # idfk place a stone or some shit please help I'm having a mental breakdown
+
+        if pygame.get_mouse_pos ifgknljnlknvgkvjfdrnekyjnhgfkhjbliejzerllkmlk
+
             
     def process_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+            elif event.type == pygame.constants.MOUSEBUTTONDOWN:
+                self.click(event)

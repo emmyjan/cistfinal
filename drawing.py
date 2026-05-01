@@ -54,13 +54,16 @@ class Drawer:
 
 
         size_square = (self.end_coord[0] - self.start_coord[0]) // (self.board.get_size()-1)
-        boxx = (pygame.mouse.get_pos()[0] // size_square) * size_square + 5
-        boxy = (pygame.mouse.get_pos()[1] // size_square) * size_square + 20
-        box = pygame.Rect(boxx,boxy,30,30)
+        boxx = (pygame.mouse.get_pos()[0] // size_square) * size_square + 3
+        boxy = (pygame.mouse.get_pos()[1] // size_square) * size_square + 17
+        box = pygame.Rect(boxx,boxy,40,40)
         if pygame.mouse.get_pos()[0] < self.start_coord[0] or pygame.mouse.get_pos()[1] > self.end_coord[1]:
             return
         else:
-            pygame.draw.rect(self.screen, "blue", box, 1)
+            pygame.draw.rect(self.screen, "blue", box, 2)
+
+
+
 
 
 
