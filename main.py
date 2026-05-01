@@ -4,7 +4,7 @@ from game import *
 def main():
     wb = Board(5)
     print(wb)
-    testing = False
+    testing = True
     t = True
     if testing:
         while True:
@@ -19,8 +19,9 @@ def main():
                 print("Error! Occupied")
             else:
                 wb.place_stone(x_cord, y_cord, color=color)
-                print(f"Placing stone at {x_cord},{y_cord}. Liberties is {wb.get_group_liberties()}")
-            
+                print(f"Placing stone at {x_cord},{y_cord}.")
+
+            t = not t
             color = not color
     # test that maddy can exist
     print(wb)

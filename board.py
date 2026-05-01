@@ -33,10 +33,10 @@ class Board:
     def check_death(self, stone:Stone):
         """Determines if a stone or its neighbors are dead"""
         if self.get_group_liberties(stone) == 0:
-            print(f"{stone} to die")
+            self.delete_group(stone)
         for link in stone.getLinks():
             if self.get_group_liberties(link) == 0:
-                print(f"{link} to die")
+                self.delete_group(link)
 
     
 
@@ -45,7 +45,7 @@ class Board:
         try:
             self.__world[posy][posx] = Stone(posx, posy, color, name)
             self.establish_world_links()
-            self.check_death()
+            self.check_death(self.__world[posy][posx])
             return self.__world[posy][posx]
         except IndexError:
             print("Error! Coordinate out of range.")
@@ -80,10 +80,32 @@ class Board:
         return self.get_group_liberties(stone)
 
     def delete_group(self, stone: Stone, visited=[]):
-        pass
+        if stone == None:
+            return
+        if stone.getColor() == Stone.COLOR_EMPTY:
+            return
+        color = stone.getColor()
+        visited.append(stone)
+        stone.color = Stone.COLOR_EMPTY
+        # adds the stones location to a list
+        for link in stone.getLinks():
+            if link == None:
+                continue
+                # error case
+            if link.getColor() == color and link not in visited:
+                # checks the spot being looked at to see if it is not in the list
+                self.delete_group(link, visited=visited)
+
+
+
+
+
+
 
     def get_group_liberties(self, stone: Stone, origin = True):
         """Returns total number of liberties for a group at a specified coordinate"""
+        if stone == None:
+            return
         liberties = 0
 
         if origin:
