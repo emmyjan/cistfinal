@@ -2,6 +2,7 @@ from drawing import *
 
 
 class Game():
+    """Contains the main loop"""
     def __init__(self):
         self.drawer = Drawer(800, 600)
         self.running = True

@@ -6,6 +6,9 @@ class Board:
         self.size = size
         self.__world = [[]]
         self.__slist = [] #Positions already visited by get_group_liberties
+        self.__dlist = [] #Positions already visited by delete_group
+        
+        self.NULL_STONE = Stone(-1, -1, Stone.COLOR_EMPTY, "NULL")
 
         for y in range(size):
             for x in range(size): 
@@ -27,13 +30,35 @@ class Board:
                 if x + 1 < self.size :
                     self.__world[y][x].east_stone = self.__world[y][x+1]
 
-    def place_stone(self, posx, posy, name="Unnamed", color=Stone.COLOR_WHITE):
+    def check_death(self, stone:Stone):
+        """Determines if a stone or its neighbors are dead"""
+        if self.get_group_liberties(stone) == 0:
+            print(f"{stone} to die")
+        for link in stone.getLinks():
+            if self.get_group_liberties(link) == 0:
+                print(f"{link} to die")
+
+    
+
+    def place_stone(self, posx, posy, name="Unnamed", color=Stone.COLOR_WHITE) -> Stone:
         """Places new stone object onto Board instance"""
         try:
             self.__world[posy][posx] = Stone(posx, posy, color, name)
             self.establish_world_links()
+            self.check_death()
+            return self.__world[posy][posx]
         except IndexError:
             print("Error! Coordinate out of range.")
+        return self.NULL_STONE
+    
+    def get_stone(self, x, y) -> Stone:
+        """Finds Stone object at coordinates. Returns NULL_STONE if IndexError"""
+        try:
+            st = self.__world[y][x]
+        except IndexError:
+            print("Error! Index out of bounds in get_stone")
+            return self.NULL_STONE
+        return st
 
     def get_board(self):
         return self.__world
@@ -54,11 +79,13 @@ class Board:
         stone = self.__world[posy][posx]
         return self.get_group_liberties(stone)
 
+    def delete_group(self, stone: Stone, visited=[]):
+        pass
 
-    def get_group_liberties(self, stone: Stone, origin=True):
+    def get_group_liberties(self, stone: Stone, origin = True):
         """Returns total number of liberties for a group at a specified coordinate"""
         liberties = 0
-        
+
         if origin:
             self.__slist = []
 
@@ -79,3 +106,4 @@ class Board:
                     liberties += self.get_group_liberties(link, origin=False)
                 
         return liberties
+    

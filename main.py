@@ -4,12 +4,25 @@ from game import *
 def main():
     wb = Board(5)
     print(wb)
-    wb.place_stone(2, 2, name="Bobbiam")
-    wb.place_stone(2, 1, name="Robbiam")
-    wb.place_stone(1, 1, name="Lobbiam")
-    wb.place_stone(0, 1, name="Clobbiam")
+    testing = False
+    t = True
+    if testing:
+        while True:
+            color = Stone.COLOR_BLACK if t else Stone.COLOR_WHITE
+            print(wb)
+            print(f"Player {color} to play.")
+
+            x_cord = int(input("Enter x:"))
+            y_cord = int(input("Enter y:"))
+
+            if wb.get_stone(x_cord, y_cord).color != Stone.COLOR_EMPTY:
+                print("Error! Occupied")
+            else:
+                wb.place_stone(x_cord, y_cord, color=color)
+                print(f"Placing stone at {x_cord},{y_cord}. Liberties is {wb.get_group_liberties()}")
+            
+            color = not color
     # test that maddy can exist
-    print(wb.get_group_liberties_pos(2,2))
     print(wb)
 
     game = Game()
