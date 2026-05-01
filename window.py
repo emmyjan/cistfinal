@@ -21,7 +21,7 @@ def init_game():
     running = True
     dt = 0
     player_pos = pygame.Vector2(300, 400)
-    bg = pygame.image.load("board.png")
+    bg = pygame.image.load("board_2.png")
     circles = []
     working_board = None
 

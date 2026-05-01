@@ -3,6 +3,8 @@ from game import *
 
 def main():
     wb = Board(9)
+    # she is lying
+    # lies and deceit
     print(wb)
     testing = False
     t = True

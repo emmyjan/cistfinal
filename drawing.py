@@ -11,8 +11,8 @@ class Drawer:
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.clock = pygame.time.Clock()
         self.board = board
-        self.__bg = pygame.image.load("board.png")
-        self.set_board_params( (228, 25), (760, 569))
+        self.__bg = pygame.image.load("board_2.png")
+        self.set_board_params( (220, 30), (760, 575))
         pygame.init()
 
     def set_board_params(self, start_coord: tuple, end_coord: tuple):
@@ -53,9 +53,9 @@ class Drawer:
 
 
 
-        size_square = (self.end_coord[0] - self.start_coord[0]) // self.board.get_size()
-        boxx = (pygame.mouse.get_pos()[0] // size_square) * size_square
-        boxy = (pygame.mouse.get_pos()[1] // size_square) * size_square
+        size_square = (self.end_coord[0] - self.start_coord[0]) // (self.board.get_size()-1)
+        boxx = (pygame.mouse.get_pos()[0] // size_square) * size_square + 5
+        boxy = (pygame.mouse.get_pos()[1] // size_square) * size_square + 20
         box = pygame.Rect(boxx,boxy,30,30)
         if pygame.mouse.get_pos()[0] < self.start_coord[0] or pygame.mouse.get_pos()[1] > self.end_coord[1]:
             return
