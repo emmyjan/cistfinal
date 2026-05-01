@@ -31,7 +31,7 @@ class Drawer:
         Requires start and end coord of in-game display board"""
         current_coord = list(self.start_coord[:])
         board_ptr = self.board.get_board() #Create a reference to the world board
-        MAGIC_NUMBER = 1.25
+        MAGIC_NUMBER = 1.27 #what
 
         size = len(board_ptr)
         space_size = (self.end_coord[0] - self.start_coord[0]) // size # Get distance between the intersections  
@@ -51,4 +51,4 @@ class Drawer:
 
     def draw_highlight(self) -> None:
         mouse_pos = pygame.mouse.get_pos()
-        print(f"{mouse_pos}")
+
