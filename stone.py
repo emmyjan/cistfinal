@@ -26,14 +26,14 @@ class Stone:
         print("To the West is: ", end = '')
         print(self.west_stone)
 
-    def getColor(self):
-        return self.color
-    
-    def getLinks(self):
+    def getColor(self) -> int:
+        return self.color        
+
+    def getLinks(self) -> tuple:
         """Returns a tuple of all linked stones, in directional order of NESW"""
         return (self.north_stone, self.east_stone, self.south_stone, self.west_stone)
 
-    def getName(self):
+    def getName(self) -> str:
         return self.__name
 
     def getChar(self):

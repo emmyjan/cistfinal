@@ -3,10 +3,12 @@ from drawing import *
 
 class Game():
     """Contains the main loop"""
-    def __init__(self):
-        self.drawer = Drawer(800, 600)
-        self.running = True
+    def __init__(self, board):
+        self.board = board
 
+        self.drawer = Drawer(800, 600, board)
+        self.running = True
+        
     def main_loop(self):
         while self.running:
             self.process_events()
