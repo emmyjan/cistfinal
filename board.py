@@ -1,6 +1,7 @@
 from stone import *
 from math import *
 import pygame
+import game
 
 
 class Board:
@@ -48,7 +49,10 @@ class Board:
     def check_death(self, stone:Stone):
         """Determines if a stone or its neighbors are dead"""
         if self.get_group_liberties(stone) == 0:
-            self.delete_group(stone)
+            if stone.getColor() == Stone.COLOR_WHITE:
+                game.captured_white_stones += self.delete_group(stone)
+            elif stone.getColor() == Stone.COLOR_BLACK:
+                game.captured_black_stones += self.delete_group(stone)
         for link in stone.getLinks():
             if self.get_group_liberties(link) == 0:
                 self.delete_group(link)
@@ -78,7 +82,10 @@ class Board:
     
     def get_size(self):
         return self.size
-    
+
+    def set_game(self, gayme):
+        gayme.Game
+
     def __str__(self):
         retval = ""
         for y in range(self.size):
@@ -171,7 +178,8 @@ class Board:
                 # error case
             if link.getColor() == color and link not in visited:
                 # checks the spot being looked at to see if it is not in the list
-                self.delete_group(link, visited=visited)
+                deleted += self.delete_group(link, visited=visited)
+        return deleted
 
     def get_group_liberties(self, stone: Stone, origin = True, hypothetical_color=Stone.COLOR_EMPTY):
         """Returns total number of liberties for a group at a specified coordinate\n
