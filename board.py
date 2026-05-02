@@ -162,7 +162,7 @@ class Board:
 
         return spaces
 
-    def delete_group(self, stone: Stone, visited=[]):
+    def delete_group(self, stone: Stone, visited=[], deleted = 0):
         """Deletes a group of stones, starting on any given Stone object"""
         if stone == None:
             return
