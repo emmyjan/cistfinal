@@ -1,15 +1,17 @@
 from stone import *
-
+from math import *
 
 class Board:
-    def __init__(self, size):
+    def __init__(self, size: int, board_start=(-1,-1), board_end=(-1,-1)):
         self.size = size
         self.__world = [[]]
         self.__slist = [] #Positions already visited by get_group_liberties
-        self.__dlist = [] #Positions already visited by delete_group
-        
+        self.board_start = board_start
+        self.board_end = board_end #Coordinates of the board on the screen
+        self.intersections = self.get_instersections()
+        print(self.intersections)
         self.NULL_STONE = Stone(-1, -1, Stone.COLOR_EMPTY, "NULL")
-
+        
         for y in range(size):
             for x in range(size): 
                 self.__world[y].append(Stone(x, y, Stone.COLOR_EMPTY, name = "Unnamed"))
@@ -30,6 +32,17 @@ class Board:
                 if x + 1 < self.size :
                     self.__world[y][x].east_stone = self.__world[y][x+1]
 
+    def get_instersections(self) -> tuple:
+        SIZE = 67
+        y_list = []
+        x_list = []
+        for y in range(self.size):
+            for x in range(self.size):
+                cord = self.board_start
+                x_list.append((cord[0] + (SIZE*x), cord[1] + (SIZE*y)))
+            y_list.append(x_list[:])
+            x_list = []
+        return y_list
     def check_death(self, stone:Stone):
         """Determines if a stone or its neighbors are dead"""
         if self.get_group_liberties(stone) == 0:
@@ -75,11 +88,25 @@ class Board:
             retval += '\n'
         return retval
 
+
+
+    def snap_to_grid(self, x, y) -> tuple:
+        """Alligns a coordinate to the closest intersection"""
+        square_size = (self.board_end[0] - self.board_start[0]) // self.size
+        square_size = 66
+
+        print(f"Square size: {square_size}, sq*{self.size} = {square_size*self.size}")
+        new_x = ((x / square_size )* square_size)
+        new_y = ((y / square_size )* square_size)
+
+        return (new_x, new_y)
+    
     def get_group_liberties_pos(self, posx, posy):
         stone = self.__world[posy][posx]
         return self.get_group_liberties(stone)
 
     def delete_group(self, stone: Stone, visited=[]):
+        """Deletes a group of stones, starting on any given Stone object"""
         if stone == None:
             return
         if stone.getColor() == Stone.COLOR_EMPTY:
@@ -95,12 +122,6 @@ class Board:
             if link.getColor() == color and link not in visited:
                 # checks the spot being looked at to see if it is not in the list
                 self.delete_group(link, visited=visited)
-
-
-
-
-
-
 
     def get_group_liberties(self, stone: Stone, origin = True):
         """Returns total number of liberties for a group at a specified coordinate"""
