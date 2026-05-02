@@ -12,7 +12,9 @@ class Game():
         self.gamestate_turn = self.TURN_BLACK 
         self.drawer = Drawer(800, 600, board) # type: ignore
         self.running = True
-        
+        self.captured_white_stones = 0
+        self.captured_black_stones = 0
+    
     def main_loop(self):
         while self.running:
             self.process_events()
