@@ -1,7 +1,10 @@
 from board import *
 from game import *
+from PyQt6.QtWidgets import *
+from launcher_controller import *
 
 def main():
+    run_launcher()
     wb = Board(9, (222, 36), (759, 572))
     # she is lying
     # lies and deceit
@@ -31,6 +34,14 @@ def main():
     game = Game(wb)
     game.main_loop()
     
+def run_launcher():
+    app = QApplication([])
+    window = Controller(app)
+    window.show()
+    app.exec()
+    app.quit()
+
+
 
 if __name__ == "__main__":
     main()
