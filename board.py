@@ -149,6 +149,16 @@ class Board:
                 # checks the spot being looked at to see if it is not in the list
                 self.delete_group(link, visited=visited)
 
+    def flood_fill_score(self, target_color: int, pos_x, pos_y, filled=[]):
+        points = 0
+        stone = self.__world[pos_y][pos_x]
+        filled.append[stone]
+        for link in stone.getLinks():
+            if link == None:
+                continue
+            #if link
+        return points
+
     def get_group_liberties(self, stone: Stone, origin = True, hypothetical_color=Stone.COLOR_EMPTY):
         """Returns total number of liberties for a group at a specified coordinate\n
         hypothetical_color: Get the 'What If' Liberties if a Stone was a different color
