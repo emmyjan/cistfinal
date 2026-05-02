@@ -1,7 +1,6 @@
 from stone import *
 from math import *
 import pygame
-import game
 
 
 class Board:
@@ -49,13 +48,16 @@ class Board:
     def check_death(self, stone:Stone):
         """Determines if a stone or its neighbors are dead"""
         if self.get_group_liberties(stone) == 0:
-            if stone.getColor() == Stone.COLOR_WHITE:
+           #TODO: Fix circular dependecies in board.py
+           """ if stone.getColor() == Stone.COLOR_WHITE:
                 game.captured_white_stones += self.delete_group(stone)
             elif stone.getColor() == Stone.COLOR_BLACK:
                 game.captured_black_stones += self.delete_group(stone)
+                """
         for link in stone.getLinks():
             if self.get_group_liberties(link) == 0:
                 self.delete_group(link)
+                
 
     def place_stone(self, posx, posy, name="Unnamed", color=Stone.COLOR_WHITE) -> Stone:
         """Places new stone object onto Board instance"""
