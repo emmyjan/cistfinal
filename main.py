@@ -2,7 +2,7 @@ from board import *
 from game import *
 
 def main():
-    wb = Board(9)
+    wb = Board(9, (222, 36), (759, 572))
     # she is lying
     # lies and deceit
     print(wb)
