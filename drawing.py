@@ -26,13 +26,13 @@ class Drawer:
         # testcoord = self.board.snap_to_grid(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
         # pygame.draw.circle(self.screen, "purple", testcoord, 25)
        # pygame.draw.circle()
-        for y in range(9):
-            for x in range(9):
-                pygame.draw.circle(self.screen, "white", self.board.intersections[y][x], 28)
+        # for y in range(9):
+        #     for x in range(9):
+        #         pygame.draw.circle(self.screen, "white", self.board.intersections[y][x], 28)
         pygame.display.flip()
         self.clock.tick(60)
 
-    def draw_board(self) -> None:
+    def draw_board_dep(self) -> None:
         """Draws stones from board's world list.\n
         Requires start and end coord of in-game display board"""
         current_coord = list(self.start_coord[:])
@@ -54,6 +54,20 @@ class Drawer:
                     color = "black" 
 
                 pygame.draw.circle(self.screen, color, current_coord, 25)
+
+    def draw_board(self) -> None:
+        """Draws stones from board's world list.\n
+        Requires start and end coord of in-game display board"""
+        color = "red"
+        for ind_y, y in enumerate(self.board.get_board()):
+            for ind_x, st in enumerate(y):
+                if st.getColor() == stone.Stone.COLOR_EMPTY: #Determine cirlce color
+                    continue
+                elif st.getColor() == stone.Stone.COLOR_WHITE:
+                    color = "white"
+                else:
+                    color = "black" 
+                pygame.draw.circle(self.screen, color, self.board.intersections[ind_y][ind_x], 28)
 
     def draw_highlight(self) -> None:
         """Draws outline of square over nearest intersection to cursor"""

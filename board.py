@@ -1,5 +1,7 @@
 from stone import *
 from math import *
+import pygame
+
 
 class Board:
     def __init__(self, size: int, board_start=(-1,-1), board_end=(-1,-1)):
@@ -88,8 +90,6 @@ class Board:
             retval += '\n'
         return retval
 
-
-
     def snap_to_grid(self, x, y) -> tuple:
         """Alligns a coordinate to the closest intersection"""
         square_size = (self.board_end[0] - self.board_start[0]) // self.size
@@ -101,6 +101,23 @@ class Board:
 
         return (new_x, new_y)
     
+    def mouse_to_index(self) -> tuple:
+        """Gets index of nearest intersection in self.intersections\n
+        Returns (-1,-1) if mouse out of range
+        """
+        TOLERANCE = 15
+        ms = pygame.mouse.get_pos()
+        x = ms[0]
+        y = ms[1]
+
+        if x + TOLERANCE < self.board_start[0] or y + TOLERANCE < self.board_start[1]:
+            return (-1, -1) #Out of range
+        elif x - TOLERANCE > self.board_end[0] or y - TOLERANCE < self.board_end[1]:
+            return (-1, -1) #Out of range
+        
+            
+
+
     def get_group_liberties_pos(self, posx, posy):
         stone = self.__world[posy][posx]
         return self.get_group_liberties(stone)
