@@ -127,9 +127,9 @@ class Board:
 
         return (y_ind, x_ind)
 
-    def get_group_liberties_pos(self, posx, posy):
+    def get_group_liberties_pos(self, posx, posy, hypothetical_color=Stone.COLOR_EMPTY):
         stone = self.__world[posy][posx]
-        return self.get_group_liberties(stone)
+        return self.get_group_liberties(stone, hypothetical_color=Stone.COLOR_EMPTY)
 
     def delete_group(self, stone: Stone, visited=[]):
         """Deletes a group of stones, starting on any given Stone object"""
@@ -149,12 +149,17 @@ class Board:
                 # checks the spot being looked at to see if it is not in the list
                 self.delete_group(link, visited=visited)
 
-    def get_group_liberties(self, stone: Stone, origin = True):
-        """Returns total number of liberties for a group at a specified coordinate"""
+    def get_group_liberties(self, stone: Stone, origin = True, hypothetical_color=Stone.COLOR_EMPTY):
+        """Returns total number of liberties for a group at a specified coordinate\n
+        hypothetical_color: Get the 'What If' Liberties if a Stone was a different color
+        """
         if stone == None:
             return
         liberties = 0
+        color = stone.getColor()
 
+        if hypothetical_color != Stone.COLOR_EMPTY:
+            color = hypothetical_color
         if origin:
             self.__slist = []
 
@@ -171,7 +176,7 @@ class Board:
                 self.__slist.append(link)
                 #adds the empty spot to the list
                 liberties += 1
-            elif link.getColor() == stone.getColor() and link not in self.__slist:
+            elif link.getColor() == color and link not in self.__slist:
                     liberties += self.get_group_liberties(link, origin=False)
                 
         return liberties

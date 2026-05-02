@@ -10,7 +10,7 @@ class Game():
     def __init__(self, board: Board):
         self.board = board
         self.gamestate_turn = self.TURN_BLACK 
-        self.drawer = Drawer(800, 600, board)
+        self.drawer = Drawer(800, 600, board) # type: ignore
         self.running = True
         
     def main_loop(self):
@@ -29,10 +29,15 @@ class Game():
             return -1
         if self.gamestate_turn != self.TURN_NONE:
             color = Stone.COLOR_BLACK if self.gamestate_turn == self.TURN_BLACK else Stone.COLOR_WHITE
+            #TODO: Fix suicide bug
+            # if self.board.get_group_liberties_pos(ind[1], ind[0], hypothetical_color=color) == 0:
+            #     print("Ko-oops")
+            #     return -1
             self.board.place_stone(ind[1], ind[0], color=color)
             self.gamestate_turn *= self.TURN_SWITCH
             return 0
         return -1
+    
     def process_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

@@ -1,7 +1,7 @@
 import pygame
 import stone
 import board
-
+from game import *
 
 class Drawer:
     """Controls the display of the game, draw_update is to be called during the main loop"""
@@ -22,7 +22,14 @@ class Drawer:
     def draw_update(self) -> None:
         self.screen.blit(self.__bg, (0, 0))
         self.draw_board()
-        self.draw_highlight()
+
+
+        # if self.game.gamestate_turn == self.game.TURN_BLACK:
+        #     pygame.draw.circle(self.screen, "black", (30, 30), 30)
+        # else:
+        #     pygame.draw.circle(self.screen, "black", (30, 30), 30)
+
+        # self.draw_highlight()
         # testcoord = self.board.snap_to_grid(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
         # pygame.draw.circle(self.screen, "purple", testcoord, 25)
        # pygame.draw.circle()
@@ -73,17 +80,18 @@ class Drawer:
         """Draws outline of square over nearest intersection to cursor"""
         OFFSET_X = 5
         OFFSET_Y = 20
+        BOX_SIZE = 30
 
         size_square = (self.end_coord[0] - self.start_coord[0]) // (self.board.get_size()-1)
         boxx = (pygame.mouse.get_pos()[0] // size_square) * size_square + OFFSET_X
         boxy = (pygame.mouse.get_pos()[1] // size_square) * size_square + OFFSET_Y
-        box = pygame.Rect(boxx,boxy,30,30)
+        box = pygame.Rect(boxx,boxy,BOX_SIZE,BOX_SIZE)
 
         #Out of bounds check
         if pygame.mouse.get_pos()[0] < self.start_coord[0] or pygame.mouse.get_pos()[1] > self.end_coord[1]:
             return
         else:
-            pygame.draw.rect(self.screen, "blue", box, 1)
+            pygame.draw.rect(self.screen, "black", box, 1)
 
 
 
