@@ -14,7 +14,6 @@ class Game():
         self.running = True
         self.captured_white_stones = 0
         self.captured_black_stones = 0
-    
     def main_loop(self):
         while self.running:
             self.process_events()
@@ -46,4 +45,3 @@ class Game():
                 self.running = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.usr_clicked(event)
-

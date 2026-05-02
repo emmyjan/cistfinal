@@ -131,6 +131,30 @@ class Board:
         stone = self.__world[posy][posx]
         return self.get_group_liberties(stone, hypothetical_color=Stone.COLOR_EMPTY)
 
+    def call_flood_fill_stone(self, st: Stone, friendly_color=Stone.COLOR_BLACK):
+        """Returns number of spaces in area. Returns negative if stone that is not a friendly_color is touched"""
+        return self.flood_fill_stone(st, friendly_color=friendly_color, visited=[])
+
+    def flood_fill_stone(self, st: Stone, friendly_color=Stone.COLOR_BLACK, visited=[]) -> int:
+        """Do not call. Use call_flood_fill_stone. \nReturns number of spaces in area. Returns negative if stone that is not a friendly_color is touched"""
+        spaces = 1 if (st.color == Stone.COLOR_EMPTY) else 0
+        opposite_color = Stone.COLOR_WHITE if friendly_color == Stone.COLOR_BLACK else Stone.COLOR_BLACK         
+        visited.append(st)
+
+        if st.color != Stone.COLOR_EMPTY:
+            return 0
+        
+        for link in st.getLinks():
+            if link == None:
+                continue
+            cl = link.getColor()
+            if cl == opposite_color:
+                return -999
+            elif cl == st.COLOR_EMPTY and link not in visited:
+                spaces += self.flood_fill_stone(link, visited=visited)
+
+        return spaces
+
     def delete_group(self, stone: Stone, visited=[]):
         """Deletes a group of stones, starting on any given Stone object"""
         if stone == None:
