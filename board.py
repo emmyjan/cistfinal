@@ -45,6 +45,7 @@ class Board:
             y_list.append(x_list[:])
             x_list = []
         return y_list
+    
     def check_death(self, stone:Stone):
         """Determines if a stone or its neighbors are dead"""
         if self.get_group_liberties(stone) == 0:
@@ -52,8 +53,6 @@ class Board:
         for link in stone.getLinks():
             if self.get_group_liberties(link) == 0:
                 self.delete_group(link)
-
-    
 
     def place_stone(self, posx, posy, name="Unnamed", color=Stone.COLOR_WHITE) -> Stone:
         """Places new stone object onto Board instance"""
@@ -105,18 +104,29 @@ class Board:
         """Gets index of nearest intersection in self.intersections\n
         Returns (-1,-1) if mouse out of range
         """
-        TOLERANCE = 15
+        TOLERANCE = 150
+        OFFSET = 28
         ms = pygame.mouse.get_pos()
         x = ms[0]
         y = ms[1]
 
+        x_ind = -1
+        y_ind = -1
+
         if x + TOLERANCE < self.board_start[0] or y + TOLERANCE < self.board_start[1]:
             return (-1, -1) #Out of range
-        elif x - TOLERANCE > self.board_end[0] or y - TOLERANCE < self.board_end[1]:
+        elif x - TOLERANCE > self.board_end[0] or y - TOLERANCE > self.board_end[1]:
             return (-1, -1) #Out of range
         
-            
+        #Go through intersections to find nearest index.
+        for ind_r, row in enumerate(self.intersections):
+            for ind_el, elem in enumerate(row):
+                if x - OFFSET < elem[0] and y - OFFSET < elem[1]:
+                    x_ind = ind_el
+                    y_ind = ind_r
+                    return (y_ind, x_ind)
 
+        return (y_ind, x_ind)
 
     def get_group_liberties_pos(self, posx, posy):
         stone = self.__world[posy][posx]

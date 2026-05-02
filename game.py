@@ -1,9 +1,9 @@
 from drawing import *
-
+from board import *
 
 class Game():
     """Contains the main loop"""
-    def __init__(self, board):
+    def __init__(self, board: Board):
         self.board = board
 
         self.drawer = Drawer(800, 600, board)
@@ -13,7 +13,6 @@ class Game():
         while self.running:
             self.process_events()
             self.drawer.draw_update()
-
         pygame.quit()
             
     def process_events(self):
