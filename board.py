@@ -11,7 +11,6 @@ class Board:
         self.board_start = board_start
         self.board_end = board_end #Coordinates of the board on the screen
         self.intersections = self.get_instersections()
-        print(self.intersections)
         self.NULL_STONE = Stone(-1, -1, Stone.COLOR_EMPTY, "NULL")
         
         for y in range(size):
@@ -104,7 +103,7 @@ class Board:
         """Gets index of nearest intersection in self.intersections\n
         Returns (-1,-1) if mouse out of range
         """
-        TOLERANCE = 150
+        TOLERANCE = 30
         OFFSET = 28
         ms = pygame.mouse.get_pos()
         x = ms[0]
