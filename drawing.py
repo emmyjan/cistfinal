@@ -12,6 +12,7 @@ class Drawer:
         self.board = board
         self.__bg = pygame.image.load("board_2.png")
         self.game_controller = None
+        self.current_turn_color = "black"
         self.set_board_params( (220, 30), (760, 575))
         pygame.init()
 
@@ -22,10 +23,16 @@ class Drawer:
         self.start_coord = start_coord
         self.end_coord = end_coord
 
+    def flip_current_turn_color(self):
+        if self.current_turn_color == "black":
+            self.current_turn_color = "white"
+        else:
+            self.current_turn_color = "black"
+                    
     def draw_update(self) -> None:
         self.screen.blit(self.__bg, (0, 0))
         self.draw_board()
-
+        self.draw_current_turn_stone(self.current_turn_color)
 
         # if self.game.gamestate_turn == self.game.TURN_BLACK:
         #     pygame.draw.circle(self.screen, "black", (30, 30), 30)

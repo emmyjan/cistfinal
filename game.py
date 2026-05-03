@@ -48,16 +48,21 @@ class Game():
             #     print("Ko-oops")
             #     return -1
             self.board.place_stone(ind[1], ind[0], color=color)
-            self.gamestate_turn *= self.TURN_SWITCH
+            self.change_turn()
             self.last_player_pass = False
             return 0
         return -1
+
+    def change_turn(self):
+        self.gamestate_turn *= self.TURN_SWITCH
+        self.drawer.flip_current_turn_color()
+
 
     def pass_button(self):
         if self.last_player_pass:
             print("both players passed")
         else:
-            self.gamestate_turn *= self.TURN_SWITCH
+            self.change_turn()
             self.last_player_pass = True
     
     def process_events(self):
