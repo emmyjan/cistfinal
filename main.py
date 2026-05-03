@@ -4,11 +4,9 @@ from PyQt6.QtWidgets import *
 from launcher_controller import *
 
 def main():
-    run_launcher()
+  #  run_launcher()
     wb = Board(9, (222, 36), (759, 572))
-    # she is lying
-    # lies and deceit
-    print(wb)
+    
     testing = False
     t = True
     if testing:
@@ -29,9 +27,9 @@ def main():
             t = not t
             color = not color
     # test that maddy can exist
-    print(wb)
 
     game = Game(wb)
+    wb.set_game_controller(game)
     game.main_loop()
     
 def run_launcher():

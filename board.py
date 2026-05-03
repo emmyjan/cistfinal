@@ -12,7 +12,8 @@ class Board:
         self.board_end = board_end #Coordinates of the board on the screen
         self.intersections = self.get_instersections()
         self.NULL_STONE = Stone(-1, -1, Stone.COLOR_EMPTY, "NULL")
-        
+        self.game_controller = None
+
         for y in range(size):
             for x in range(size): 
                 self.__world[y].append(Stone(x, y, Stone.COLOR_EMPTY, name = "Unnamed"))
@@ -33,6 +34,9 @@ class Board:
                 if x + 1 < self.size :
                     self.__world[y][x].east_stone = self.__world[y][x+1]
 
+    def set_game_controller(self, game):
+        self.game_controller = game
+
     def get_instersections(self) -> tuple:
         SIZE = 67
         y_list = []
@@ -46,17 +50,23 @@ class Board:
         return y_list
     
     def check_death(self, stone:Stone):
-        """Determines if a stone or its neighbors are dead"""
+        """Determines a stone's neighbors are dead"""
         if self.get_group_liberties(stone) == 0:
-           #TODO: Fix circular dependecies in board.py
-           """ if stone.getColor() == Stone.COLOR_WHITE:
-                game.captured_white_stones += self.delete_group(stone)
+            if stone.getColor() == Stone.COLOR_WHITE:
+                self.game_controller.captured_white_stones += self.delete_group(stone)
             elif stone.getColor() == Stone.COLOR_BLACK:
-                game.captured_black_stones += self.delete_group(stone)
-                """
+                self.game_controller.captured_black_stones += self.delete_group(stone)
         for link in stone.getLinks():
             if self.get_group_liberties(link) == 0:
-                self.delete_group(link)
+                color = stone.getColor()
+                if color == stone.COLOR_BLACK:
+                    self.game_controller.captured_black_stones += self.delete_group(link)
+                else:
+                    self.game_controller.captured_white_stones += self.delete_group(link)
+
+                
+            #DEBUG
+            print(self.game_controller.captured_white_stones, self.game_controller.captured_black_stones)
                 
 
     def place_stone(self, posx, posy, name="Unnamed", color=Stone.COLOR_WHITE) -> Stone:
@@ -164,14 +174,17 @@ class Board:
 
         return spaces
 
-    def delete_group(self, stone: Stone, visited=[], deleted = 0):
-        """Deletes a group of stones, starting on any given Stone object"""
+    def delete_group(self, stone: Stone, visited=[]):
+        """Deletes 
+        a group of stones, starting on any given Stone object"""
+        deleted = 0
         if stone == None:
-            return
+            return 0
         if stone.getColor() == Stone.COLOR_EMPTY:
-            return
+            return 0
         color = stone.getColor()
         visited.append(stone)
+        deleted += 1
         stone.color = Stone.COLOR_EMPTY
         # adds the stones location to a list
         for link in stone.getLinks():
