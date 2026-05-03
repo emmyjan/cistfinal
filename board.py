@@ -51,11 +51,6 @@ class Board:
     
     def check_death(self, stone:Stone):
         """Determines a stone's neighbors are dead"""
-        if self.get_group_liberties(stone) == 0:
-            if stone.getColor() == Stone.COLOR_WHITE:
-                self.game_controller.captured_white_stones += self.delete_group(stone)
-            elif stone.getColor() == Stone.COLOR_BLACK:
-                self.game_controller.captured_black_stones += self.delete_group(stone)
         for link in stone.getLinks():
             if self.get_group_liberties(link) == 0:
                 color = stone.getColor()
@@ -63,6 +58,11 @@ class Board:
                     self.game_controller.captured_black_stones += self.delete_group(link)
                 else:
                     self.game_controller.captured_white_stones += self.delete_group(link)
+        if self.get_group_liberties(stone) == 0:
+            if stone.getColor() == Stone.COLOR_WHITE:
+                self.game_controller.captured_white_stones += self.delete_group(stone)
+            elif stone.getColor() == Stone.COLOR_BLACK:
+                self.game_controller.captured_black_stones += self.delete_group(stone)
 
                 
             #DEBUG

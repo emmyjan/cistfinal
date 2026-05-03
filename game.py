@@ -44,10 +44,18 @@ class Game():
             return -1
         if self.gamestate_turn != self.TURN_NONE:
             color = Stone.COLOR_BLACK if self.gamestate_turn == self.TURN_BLACK else Stone.COLOR_WHITE
-            #TODO: Fix suicide bug
-            # if self.board.get_group_liberties_pos(ind[1], ind[0], hypothetical_color=color) == 0:
-            #     print("Ko-oops")
-            #     return -1
+
+            if self.board.get_group_liberties_pos(ind[1], ind[0], hypothetical_color=color) == 0:
+                found_dead = False
+                for link in self.board.get_stone(ind[1], ind[0]).getLinks():
+                    if link == None:
+                        continue
+                    if self.board.get_group_liberties(link) <= 1 and link.getColor() != color:
+                        found_dead = True
+                if not found_dea:
+                    return -1
+
+            
             self.board.place_stone(ind[1], ind[0], color=color)
             self.change_turn()
             self.last_player_pass = False
@@ -57,7 +65,7 @@ class Game():
     def change_turn(self):
         self.gamestate_turn *= self.TURN_SWITCH
         self.drawer.flip_current_turn_color()
-
+        self.drawer.set_game_msg("")
 
     def pass_button(self):
         if self.last_player_pass:
