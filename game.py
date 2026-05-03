@@ -21,8 +21,18 @@ class Game():
         while self.running:
             self.process_events()
             self.drawer.draw_update()
+            self.call_turn_stone_draw()
         pygame.quit()
-            
+    
+    def call_turn_stone_draw(self):
+
+        if self.gamestate_turn == Game.TURN_NONE:
+            return
+        if self.gamestate_turn == Game.TURN_BLACK:
+            self.drawer.draw_current_turn_stone("black") 
+        else:
+            self.drawer.draw_current_turn_stone("white") 
+
     def usr_clicked(self, event: pygame.Event):
         """Processes a user click. Gets mouse pos, will place a stone and\n change gamestate if successful,
         returning 0.\n Otherwise returns -1. event.type must == pygame.MOUSEBUTTONDOWN"""

@@ -1,7 +1,6 @@
 import pygame
 import stone
 import board
-from game import *
 
 class Drawer:
     """Controls the display of the game, draw_update is to be called during the main loop"""
@@ -16,7 +15,7 @@ class Drawer:
         self.set_board_params( (220, 30), (760, 575))
         pygame.init()
 
-    def set_game_controller(self, gm: Game):
+    def set_game_controller(self, gm):
         self.game_controller = gm
 
     def set_board_params(self, start_coord: tuple, end_coord: tuple):
@@ -101,6 +100,11 @@ class Drawer:
         else:
             pygame.draw.rect(self.screen, "black", box, 1)
 
+    def draw_current_turn_stone(self, color: str):
+        CIRCLE_POS = (92, 375)
+        CIRCLE_SIZE = 25
+        
+        pygame.draw.circle(self.screen, color, CIRCLE_POS, CIRCLE_SIZE) 
 
-
+ 
 
