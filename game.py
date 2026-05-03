@@ -11,6 +11,7 @@ class Game():
         self.board = board
         self.gamestate_turn = self.TURN_BLACK 
         self.drawer = Drawer(800, 600, board) # type: ignore
+        self.drawer.set_game_controller(self)
         self.running = True
         self.captured_white_stones = 0
         self.captured_black_stones = 0

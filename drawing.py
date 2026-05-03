@@ -12,8 +12,12 @@ class Drawer:
         self.clock = pygame.time.Clock()
         self.board = board
         self.__bg = pygame.image.load("board_2.png")
+        self.game_controller = None
         self.set_board_params( (220, 30), (760, 575))
         pygame.init()
+
+    def set_game_controller(self, gm: Game):
+        self.game_controller = gm
 
     def set_board_params(self, start_coord: tuple, end_coord: tuple):
         self.start_coord = start_coord
@@ -75,6 +79,10 @@ class Drawer:
                 else:
                     color = "black" 
                 pygame.draw.circle(self.screen, color, self.board.intersections[ind_y][ind_x], 28)
+
+    def draw_score(self) -> None:
+        pygame.display.set_caption(self.game.captured_white_stones)
+        pygame.freetype.SysFont("Arial")
 
     def draw_highlight(self) -> None:
         """Draws outline of square over nearest intersection to cursor"""
