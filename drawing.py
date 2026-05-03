@@ -13,6 +13,8 @@ class Drawer:
         self.board = board
         self.__bg = pygame.image.load("board_2.png")
         self.game_controller = None
+        self.game_over_msg = False
+        self.game_msg = ""
         self.current_turn_color = "black"
         self.font = pygame.font.Font(None, 32)
         self.scores = (0,0)
@@ -39,7 +41,7 @@ class Drawer:
         self.draw_board()
         self.draw_current_turn_stone(self.current_turn_color)
         self.draw_scores()
-
+        self.display_gamestate_msg()
         # if self.game.gamestate_turn == self.game.TURN_BLACK:
         #     pygame.draw.circle(self.screen, "black", (30, 30), 30)
         # else:
@@ -54,6 +56,13 @@ class Drawer:
         #         pygame.draw.circle(self.screen, "white", self.board.intersections[y][x], 28)
         pygame.display.flip()
         self.clock.tick(60)
+
+    def set_game_msg(self, msg: str):
+        self.game_msg = msg
+
+    def display_gamestate_msg(self):
+        message = self.font.render(f"{self.game_msg}", False, (10, 10, 10))
+        self.screen.blit(message, (27, 411)) 
 
     def draw_board_dep(self) -> None:
         """Draws stones from board's world list.\n

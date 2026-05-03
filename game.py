@@ -61,9 +61,12 @@ class Game():
 
     def pass_button(self):
         if self.last_player_pass:
-            print("both players passed")
+            
+            self.drawer.set_game_msg("Game Over!")
+            self.gamestate_turn = self.TURN_NONE
         else:
             self.change_turn()
+            self.drawer.set_game_msg("Player Passes")
             self.last_player_pass = True
     
     def process_events(self):
