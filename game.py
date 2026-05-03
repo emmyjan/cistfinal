@@ -52,7 +52,7 @@ class Game():
                         continue
                     if self.board.get_group_liberties(link) <= 1 and link.getColor() != color:
                         found_dead = True
-                if not found_dea:
+                if not found_dead:
                     return -1
 
             
