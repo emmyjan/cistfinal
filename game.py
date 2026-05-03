@@ -20,6 +20,7 @@ class Game():
     def main_loop(self):
         while self.running:
             self.process_events()
+            self.drawer.update_scores((self.captured_white_stones, self.captured_black_stones))
             self.drawer.draw_update()
             self.call_turn_stone_draw()
         pygame.quit()

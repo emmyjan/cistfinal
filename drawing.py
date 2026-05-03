@@ -5,6 +5,7 @@ import board
 class Drawer:
     """Controls the display of the game, draw_update is to be called during the main loop"""
     def __init__(self, w, h, board: board.Board):
+        pygame.init()
         self.WIDTH = w
         self.HEIGHT = h
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -13,8 +14,12 @@ class Drawer:
         self.__bg = pygame.image.load("board_2.png")
         self.game_controller = None
         self.current_turn_color = "black"
+        self.font = pygame.font.Font(None, 32)
+        self.scores = (0,0)
         self.set_board_params( (220, 30), (760, 575))
-        pygame.init()
+
+    def update_scores(self, score: tuple) -> None:
+        self.scores = score[:]
 
     def set_game_controller(self, gm):
         self.game_controller = gm
@@ -28,11 +33,12 @@ class Drawer:
             self.current_turn_color = "white"
         else:
             self.current_turn_color = "black"
-                    
+
     def draw_update(self) -> None:
         self.screen.blit(self.__bg, (0, 0))
         self.draw_board()
         self.draw_current_turn_stone(self.current_turn_color)
+        self.draw_scores()
 
         # if self.game.gamestate_turn == self.game.TURN_BLACK:
         #     pygame.draw.circle(self.screen, "black", (30, 30), 30)
@@ -113,5 +119,12 @@ class Drawer:
         
         pygame.draw.circle(self.screen, color, CIRCLE_POS, CIRCLE_SIZE) 
 
- 
+    def draw_scores(self):
+        """Draws score of captured stones"""
+        b_score = self.scores[1]
+        w_score = self.scores[0]
+        b_txt = self.font.render(f"{b_score}", False, (10, 10, 10))
+        w_text = self.font.render(f"{w_score}", False, (10,10,10))
+        self.screen.blit(b_txt, (94, 107)) 
+        self.screen.blit(w_text, (94, 262))
 
